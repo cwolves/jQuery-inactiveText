@@ -1,7 +1,7 @@
 /**
- * jQuery inactiveText (version 1.01)
+ * jQuery inactiveText (version 1.1)
  *
- * Author  : Mark Kahn
+ * Author  : Mark Kahn (cwolves@gmail.com)
  * License : Public Domain (Do whatever you want with this)
  */
 (function () {
@@ -17,17 +17,18 @@
 		var a, b;
 		this
             .data('defaultValue', defaultValue)
-            .addClass('inactive')
+            .addClass(inactiveClass)
             .focus(a = function () {
             	var $this = $(this);
             	if ($this.hasClass(inactiveClass)) {
+            		$this.trigger('inactive-focus');
             		(valFn.apply($this) == defaultValue) && $this.val('');
             		(valFn.apply($this) != defaultValue) && $this.removeClass(inactiveClass);
             	}
             })
             .blur(b = function () {
             	var $this = $(this);
-            	this.value || $this.addClass(inactiveClass).val(defaultValue);
+            	this.value || $this.addClass(inactiveClass).val(defaultValue) && $this.trigger('inactive-blur');
             });
 		this.each(a);
 		this.each(b);
