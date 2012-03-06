@@ -16,19 +16,18 @@
 	$.fn.inactiveText = function (inactiveClass, defaultValue) {
 		var a, b;
 		this
-            .data('defaultValue', defaultValue)
-            .addClass(inactiveClass)
-            .focus(a = function () {
-            	var $this = $(this);
-            	if ($this.hasClass(inactiveClass)) {
-            		$this.trigger('inactive-focus');
-            		(valFn.apply($this) == defaultValue) && $this.val('');
-            		(valFn.apply($this) != defaultValue) && $this.removeClass(inactiveClass);
-            	}
-            })
-            .blur(b = function () {
-            	var $this = $(this);
-            	this.value || $this.addClass(inactiveClass).val(defaultValue) && $this.trigger('inactive-blur');
+			.data('defaultValue', defaultValue)
+			.addClass(inactiveClass)
+			.focus(a = function () {
+				var $this = $(this);
+				if ($this.hasClass(inactiveClass)) {
+					(valFn.apply($this) == defaultValue) && $this.val('');
+					(valFn.apply($this) != defaultValue) && $this.removeClass(inactiveClass) && $this.trigger('inactive-focus');;
+				}
+			})
+			.blur(b = function () {
+				var $this = $(this);
+				this.value || $this.addClass(inactiveClass).val(defaultValue) && $this.trigger('inactive-blur');
             });
 		this.each(a);
 		this.each(b);
